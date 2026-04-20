@@ -1,0 +1,18 @@
+name: Check Code
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4 # Скачиваем твой код из репозитория
+      - name: Use Node.js
+        uses: actions/setup-node@v4 # Устанавливаем Node.js нужной версии
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm install # Устанавливаем все зависимости из package.json
+      - run: npm run lint # Проверяем стиль кода (ESLint)
+      - run: npm test -- --passWithNoTests # Запускаем тесты и проверяем покрытие (Jest)
